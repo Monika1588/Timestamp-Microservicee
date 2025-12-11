@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({ optionsSuccessStatus: 200 }));
-
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -12,10 +11,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api", (req, res) => {
-  const date = new Date();
+  const now = new Date();
   res.json({
-    unix: date.getTime(),
-    utc: date.toUTCString()
+    unix: now.getTime(),
+    utc: now.toUTCString()
   });
 });
 
@@ -28,15 +27,15 @@ app.get("/api/:date", (req, res) => {
   } else {
     date = new Date(dateString);
   }
-x
+
   if (date.toString() === "Invalid Date") {
-    res.json({ error: "Invalid Date" });
-  } else {
-    res.json({
-      unix: date.getTime(),
-      utc: date.toUTCString()
-    });
+    return res.json({ error: "Invalid Date" });
   }
+
+  res.json({
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  });
 });
 
 const port = 3000;
